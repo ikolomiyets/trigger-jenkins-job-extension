@@ -31,7 +31,7 @@ async function run() {
         const parameters: string | undefined = tl.getInput('parameters', false);
 
         const url = `${jenkinsJobUrl}${parameters ? '/buildWithParameters' : '/build'}?token=${authenticationToken}${parameters ? "&" + parameters : ""}`
-        console.log(`Triggering '${url}'`);
+        console.log(`Triggering '${jenkinsJobUrl}'`);
         const credentials = Buffer.from(`${jenkinsUsername}:${jenkinsApiToken}`).toString('base64');
         axios.get(url, {
             headers: {
