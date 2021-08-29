@@ -5,7 +5,7 @@ pool:
   vmImage: "ubuntu-latest"
 
 variables:
-  - group: artifactz-extension
+  - group: jenkins-extension
 
 stages:
   - stage: Run_and_publish_unit_tests
@@ -70,7 +70,7 @@ stages:
               rootFolder: '$(System.DefaultWorkingDirectory)'
               publisherId: '$(PublisherID)'
               extensionId: '$(ExtensionID)'
-              extensionName: '$(ExtensionName)'
+              artifactName: '$(ExtensionName)'
               extensionVersion: '$(Task.Extension.Version)'
               updateTasksVersion: true
               updateTasksVersionType: 'patch'
