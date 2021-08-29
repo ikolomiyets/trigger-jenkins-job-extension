@@ -1,0 +1,77 @@
+{
+  "manifestVersion": 1,
+  "id": "trigger-jenkins-job-extension",
+  "name": "Trigger Jenkins Job Extension",
+  "version": "1.0.0",
+  "publisher": "iktech",
+  "tags": [
+    "Extension",
+    "Marketplace",
+    "Continuous Integration",
+    "Continuous Delivery",
+    "Build",
+    "Release",
+    "Azure Pipelines",
+    "Jenkins",
+    "Azure DevOps Extensions"
+  ],
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "description": "Tools for triggering a job in the Jenkins instance",
+  "categories": [
+    "Azure Pipelines"
+  ],
+  "icons": {
+    "default": "images/artifactz.png"
+  },
+  "content": {
+    "details": {
+      "path": "README.md"
+    },
+    "license": {
+      "path": "LICENSE"
+    }
+  },
+  "links": {
+    "repository": {
+      "uri": "https://github.com/iktech/trigger-jenkins-jobs-extension"
+    },
+    "issues": {
+      "uri": "https://github.com/iktech/trigger-jenkins-jobs-extension/issues"
+    },
+    "support": {
+      "uri": "mailto:support@iktech.io"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/iktech/trigger-jenkins-jobs-extension"
+  },
+  "badges": [
+    {
+      "href": "https://dev.azure.com/iktechio/tools/_build/latest?definitionId=3&branchName=master",
+      "uri": "https://dev.azure.com/iktechio/tools/_apis/build/status/iktech.artifactz-azure-devops-extension?branchName=master",
+      "description": "Build and Publish"
+    }
+  ],
+  "files": [
+    {
+      "path": "triggerJenkinsJobTask"
+    }
+  ],
+  "contributions": [
+    {
+      "id": "trigger-jenkins-job-task",
+      "type": "ms.vss-distributed-task.task",
+      "targets": [
+        "ms.vss-distributed-task.tasks"
+      ],
+      "properties": {
+        "name": "triggerJenkinsJobTask"
+      }
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "name": "trigger-jenkins-job-extension",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc && mocha tests/_suite.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "azure-pipelines-task-lib": "^3.1.8"
+  },
+  "devDependencies": {
+    "@types/mocha": "^9.0.0",
+    "@types/node": "^16.7.5",
+    "@types/q": "^1.5.5",
+    "sync-request": "^6.1.0"
+  }
+}
