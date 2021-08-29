@@ -77,7 +77,8 @@ stages:
               publisherId: '$(PublisherID)'
               extensionId: '$(ExtensionID)'
               artifactName: '$(ExtensionName)'
-              extensionVersion: '$(Task.Extension.Version)'
+              extensionVersion: '1.0.0'
+#              extensionVersion: '$(Task.Extension.Version)'
               updateTasksVersion: true
               updateTasksVersionType: 'patch'
               extensionVisibility: 'private' # Change to public if you're publishing to the marketplace
