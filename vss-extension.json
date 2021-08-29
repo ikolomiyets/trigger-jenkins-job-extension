@@ -52,8 +52,8 @@
   },
   "badges": [
     {
-      "href": "https://dev.azure.com/iktechio/tools/_build/latest?definitionId=3&branchName=master",
-      "uri": "https://dev.azure.com/iktechio/tools/_apis/build/status/iktech.artifactz-azure-devops-extension?branchName=master",
+      "href": "https://dev.azure.com/iktechio/tools/_build/latest?definitionId=4&branchName=master",
+      "uri": "https://dev.azure.com/iktechio/tools/_apis/build/status/iktech.trigger-jenkins-job-extension?branchName=master",
       "description": "Build and Publish"
     }
   ],
