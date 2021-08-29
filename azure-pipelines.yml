@@ -34,6 +34,12 @@ stages:
               command: 'custom'
               workingDir: 'triggerJenkinsJobTask'
               customCommand: 'test'
+            env:
+              - JOB_AUTHENTICATION_TOKEN=$(jobAuthenticationToken)
+              - JENKINS_API_TOKEN=$(jenkinsApiToken)
+              - JENKINS_USERNAME=test
+              - JENKINS_URL=https://jenkins.iktech.io/job/test
+              - JENKINS_URL_PARAM=https://jenkins.iktech.io/job/test-param
           - task: PublishTestResults@2
             inputs:
               testResultsFormat: 'JUnit'
