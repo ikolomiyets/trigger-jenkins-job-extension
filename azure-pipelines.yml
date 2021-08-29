@@ -63,14 +63,14 @@ stages:
               script: |
                 cd triggerJenkinsJobTask
                 tsc
-          - task: QueryAzureDevOpsExtensionVersion@3
-            inputs:
-              connectTo: 'VsTeam'
-              connectedServiceName: 'marketplace'
-              publisherId: '$(PublisherID)'
-              extensionId: '$(ExtensionID)'
-              versionAction: 'Patch'
-              outputVariable: 'Task.Extension.Version'
+#          - task: QueryAzureDevOpsExtensionVersion@3
+#            inputs:
+#              connectTo: 'VsTeam'
+#              connectedServiceName: 'marketplace'
+#              publisherId: '$(PublisherID)'
+#              extensionId: '$(ExtensionID)'
+#              versionAction: 'Patch'
+#              outputVariable: 'Task.Extension.Version'
           - task: PackageAzureDevOpsExtension@3
             inputs:
               rootFolder: '$(System.DefaultWorkingDirectory)'
