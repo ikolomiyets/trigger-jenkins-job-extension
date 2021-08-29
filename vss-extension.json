@@ -25,7 +25,7 @@
     "Azure Pipelines"
   ],
   "icons": {
-    "default": "images/artifactz.png"
+    "default": "images/vso-extension.png"
   },
   "content": {
     "details": {
