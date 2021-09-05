@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && mocha tests/_suite.js"
+    "test": "tsc && mocha tests/_suite.js --reporter mocha-junit-reporter --reporter-option mochaFile=reports/test-result.xml"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,8 @@
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.7.5",
     "@types/q": "^1.5.5",
+    "env-cmd": "^10.1.0",
+    "mocha-junit-reporter": "^2.0.0",
     "sync-request": "^6.1.0"
   }
 }

@@ -41,9 +41,10 @@ stages:
               JENKINS_URL: 'https://jenkins.iktech.io/job/test'
               JENKINS_URL_PARAM: 'https://jenkins.iktech.io/job/test-param'
           - task: PublishTestResults@2
+            condition: succeededOrFailed()
             inputs:
               testResultsFormat: 'JUnit'
-              testResultsFiles: '**/ResultsFile.xml'
+              testResultsFiles: '**/test-result.xml'
   - stage: Package_extension_and_publish_build_artifacts
     jobs:
       - job:
