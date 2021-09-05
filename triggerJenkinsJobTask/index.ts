@@ -50,7 +50,11 @@ async function run() {
         });
     }
     catch (err) {
-        tl.setResult(tl.TaskResult.Failed, err.message);
+        if (err instanceof Error) {
+            tl.setResult(tl.TaskResult.Failed, err.message);
+        } else {
+            tl.setResult(tl.TaskResult.Failed, 'Failed to trigger job');
+        }
     }
 }
 
