@@ -29,11 +29,11 @@
       "helpMarkDown": "Name of the user who can run the job in question"
     },
     {
-      "name": "jenkinsPassword",
+      "name": "jenkinsApiToken",
       "type": "string",
-      "label": "Jenkins password",
+      "label": "Jenkins API Token",
       "required": true,
-      "helpMarkDown": "User password"
+      "helpMarkDown": "User API Token for the above user"
     },
     {
       "name": "authenticationToken",
