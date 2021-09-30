@@ -33,21 +33,22 @@ async function run() {
         const url = `${jenkinsJobUrl}${parameters ? '/buildWithParameters' : '/build'}?token=${authenticationToken}${parameters ? "&" + parameters : ""}`
         console.log(`Triggering '${jenkinsJobUrl}'`);
         const credentials = Buffer.from(`${jenkinsUsername}:${jenkinsApiToken}`).toString('base64');
-        axios.get(url, {
-            headers: {
-                'User-Agent': 'Trigger Jenkins Job Azure DevOps Task v1.0.0',
-                'Authorization': `Basic ${credentials}`,
-            }
-        }).then(response => {
+        try {
+            const response = await axios.get(url, {
+                headers: {
+                    'User-Agent': 'Trigger Jenkins Job Azure DevOps Task v1.0.0',
+                    'Authorization': `Basic ${credentials}`,
+                }
+            });
             if (response.status !== 201) {
                 tl.setResult(tl.TaskResult.Failed, `Cannot trigger job ${jenkinsJobUrl}: ${response.data.message}`);
             } else {
                 tl.setResult(tl.TaskResult.Succeeded, `Successfully triggered a Jenkins job ${jenkinsJobUrl}`);
             }
-        }).catch(error => {
+        } catch (error: any) {
             console.log(error);
             tl.setResult(tl.TaskResult.Failed, error.response.data.error);
-        });
+        }
     }
     catch (err) {
         if (err instanceof Error) {
