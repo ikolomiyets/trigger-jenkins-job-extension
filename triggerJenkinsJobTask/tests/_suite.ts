@@ -12,34 +12,58 @@ describe('Trigger Jenkins Job task tests', function () {
 
     });
 
+    it('should fail with simple inputs', function(done: Mocha.Done) {
+        this.timeout(50000);
+
+        let tp = path.join(__dirname, 'failure.js');
+        let tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
+
+        tr.run();
+        assert.strictEqual(tr.succeeded, false, 'should have succeeded');
+        assert.strictEqual(tr.warningIssues.length, 0, "should have no warnings");
+        assert.strictEqual(tr.errorIssues.length, 1, "should have 1 error");
+        assert.strictEqual(tr.errorIssues[0], "Jenkins Job https://jenkins.iktech.io/job/test-2 had failed with the result 'FAILURE'");
+        done();
+    });
+
+    it('should timeout with simple inputs', function(done: Mocha.Done) {
+        this.timeout(50000);
+
+        let tp = path.join(__dirname, 'timeout.js');
+        let tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
+
+        tr.run();
+        assert.strictEqual(tr.succeeded, false, 'should have succeeded');
+        assert.strictEqual(tr.warningIssues.length, 0, "should have no warnings");
+        assert.strictEqual(tr.errorIssues.length, 1, "should have 1 errors");
+        assert.strictEqual(tr.errorIssues[0], 'Jenkins Job https://jenkins.iktech.io/job/test timeout');
+        done();
+    });
+
     it('should succeed with simple inputs', function(done: Mocha.Done) {
-        this.timeout(5000);
+        this.timeout(50000);
 
         let tp = path.join(__dirname, 'success.js');
         let tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
 
         tr.run();
-        console.log(tr.succeeded);
         assert.strictEqual(tr.succeeded, true, 'should have succeeded');
         assert.strictEqual(tr.warningIssues.length, 0, "should have no warnings");
         assert.strictEqual(tr.errorIssues.length, 0, "should have no errors");
-        console.log(tr.stdout);
         assert.strictEqual(tr.stdout.indexOf('Successfully triggered a Jenkins job https://jenkins.iktech.io/job/test') >= 0, true, "should display success message");
         done();
     });
 
     it('should succeed with parameters', function(done: Mocha.Done) {
-        this.timeout(5000);
+        this.timeout(20000);
 
         let tp = path.join(__dirname, 'successWithParameters.js');
         let tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
 
         tr.run();
-        console.log(tr.succeeded);
         assert.strictEqual(tr.succeeded, true, 'should have succeeded');
         assert.strictEqual(tr.warningIssues.length, 0, "should have no warnings");
         assert.strictEqual(tr.errorIssues.length, 0, "should have no errors");
-        console.log(tr.stdout);
         assert.strictEqual(tr.stdout.indexOf('Successfully triggered a Jenkins job https://jenkins.iktech.io/job/test-param') >= 0, true, "should display success message");
         done();
     });
@@ -51,7 +75,6 @@ describe('Trigger Jenkins Job task tests', function () {
         let tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
 
         tr.run();
-        console.log(tr.succeeded);
         assert.strictEqual(tr.succeeded, false, 'should have failed');
         assert.strictEqual(tr.warningIssues.length, 0, "should have no warnings");
         assert.strictEqual(tr.errorIssues.length, 1, "should have 1 error issue");
@@ -68,7 +91,6 @@ describe('Trigger Jenkins Job task tests', function () {
         let tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
 
         tr.run();
-        console.log(tr.succeeded);
         assert.strictEqual(tr.succeeded, false, 'should have failed');
         assert.strictEqual(tr.warningIssues.length, 0, "should have no warnings");
         assert.strictEqual(tr.errorIssues.length, 1, "should have 1 error issue");
@@ -85,7 +107,6 @@ describe('Trigger Jenkins Job task tests', function () {
         let tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
 
         tr.run();
-        console.log(tr.succeeded);
         assert.strictEqual(tr.succeeded, false, 'should have failed');
         assert.strictEqual(tr.warningIssues.length, 0, "should have no warnings");
         assert.strictEqual(tr.errorIssues.length, 1, "should have 1 error issue");
@@ -102,7 +123,6 @@ describe('Trigger Jenkins Job task tests', function () {
         let tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
 
         tr.run();
-        console.log(tr.succeeded);
         assert.strictEqual(tr.succeeded, false, 'should have failed');
         assert.strictEqual(tr.warningIssues.length, 0, "should have no warnings");
         assert.strictEqual(tr.errorIssues.length, 1, "should have 1 error issue");

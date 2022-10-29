@@ -1,4 +1,4 @@
-trigger: 
+trigger:
 - master
 
 pool:
@@ -39,6 +39,7 @@ stages:
               JENKINS_API_TOKEN: '$(jenkinsApiToken)'
               JENKINS_USERNAME: 'test'
               JENKINS_URL: 'https://jenkins.iktech.io/job/test'
+              JENKINS_URL_2: 'https://jenkins.iktech.io/job/test-2'
               JENKINS_URL_PARAM: 'https://jenkins.iktech.io/job/test-param'
           - task: PublishTestResults@2
             condition: succeededOrFailed()

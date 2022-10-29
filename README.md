@@ -30,6 +30,15 @@ A user whose credentials are used must be able to view Job as well as to run a b
 **Required** The authentication token specified in the trigger definition
 *Default:* N/A
 
+### `waitForResponse`
+Optional boolean flag instructing task to wait for the Jenkins Job outcome
+*Default:* true
+
+### `waitTimeout`
+Optional response timeout in seconds. If `waitForResponse` is `false` it is ignored. Otherwise, extension waits for the prescribed
+number of seconds and if Jenkins Job is not finished by that time, this task fails. Setting `waitTimeout` to -1 specifies no timeout.
+*Default:* -1
+
 ### `parameters`
 Optional job parameters
 *Default:* N/A
