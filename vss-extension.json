@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "trigger-jenkins-job-extension",
   "name": "Trigger Jenkins Job Extension",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "publisher": "iktech",
   "tags": [
     "Extension",

@@ -10,5 +10,6 @@ tmr.setInput('jenkinsJobUrl', process.env.JENKINS_URL ?? '');
 tmr.setInput('jenkinsUsername', process.env.JENKINS_USERNAME ?? '');
 tmr.setInput('jenkinsApiToken', process.env.JENKINS_API_TOKEN ?? '');
 tmr.setInput('authenticationToken', process.env.JOB_AUTHENTICATION_TOKEN ?? '');
+tmr.setInput('waitForResponse', 'false');
 
 tmr.run();
