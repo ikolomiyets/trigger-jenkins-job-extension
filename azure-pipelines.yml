@@ -47,6 +47,7 @@ stages:
               testResultsFormat: 'JUnit'
               testResultsFiles: '**/test-result.xml'
   - stage: Package_extension_and_publish_build_artifacts
+    condition: ne(variables['Build.Reason'], 'PullRequest')
     jobs:
       - job:
         steps:
@@ -71,7 +72,7 @@ stages:
               connectedServiceName: 'marketplace'
               publisherId: '$(PublisherID)'
               extensionId: '$(ExtensionID)'
-              versionAction: 'Patch'
+              versionAction: 'Minor'
               outputVariable: 'Task.Extension.Version'
           - task: PackageAzureDevOpsExtension@3
             inputs:
@@ -81,7 +82,7 @@ stages:
               artifactName: '$(ExtensionName)'
               extensionVersion: '$(Task.Extension.Version)'
               updateTasksVersion: true
-              updateTasksVersionType: 'patch'
+              updateTasksVersionType: 'minor'
               extensionVisibility: 'private' # Change to public if you're publishing to the marketplace
               extensionPricing: 'free'
           - task: CopyFiles@2
@@ -95,6 +96,7 @@ stages:
               ArtifactName: '$(ArtifactName)'
               publishLocation: 'Container'
   - stage: Download_build_artifacts_and_publish_the_extension
+    condition: ne(variables['Build.Reason'], 'PullRequest')
     jobs:
       - job:
         steps:
