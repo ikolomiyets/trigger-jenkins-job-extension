@@ -47,6 +47,7 @@ stages:
               testResultsFormat: 'JUnit'
               testResultsFiles: '**/test-result.xml'
   - stage: Package_extension_and_publish_build_artifacts
+    condition: ne(variables['Build.Reason'], 'PullRequest')
     jobs:
       - job:
         steps:
@@ -95,6 +96,7 @@ stages:
               ArtifactName: '$(ArtifactName)'
               publishLocation: 'Container'
   - stage: Download_build_artifacts_and_publish_the_extension
+    condition: ne(variables['Build.Reason'], 'PullRequest')
     jobs:
       - job:
         steps:
