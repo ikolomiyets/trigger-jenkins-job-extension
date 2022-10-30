@@ -48,23 +48,6 @@ async function run() {
 
         const parameters: string | undefined = tl.getInput('parameters', false);
 
-        let buildNumber = -1;
-
-        if (waitForJenkinsResponse) {
-            console.log('Getting current job status');
-            try {
-                const jobStatus = await getJobStatus(jenkinsJobUrl, jenkinsUsername, jenkinsApiToken);
-                console.log(jobStatus);
-                if (jobStatus.currentNumber) {
-                    buildNumber = jobStatus.currentNumber;
-                }
-            } catch (e) {
-                tl.setResult(tl.TaskResult.Failed, `Cannot get status of the job ${jenkinsJobUrl}: ${e}`);
-                return;
-            }
-        }
-
-        console.log(`Current build number ${buildNumber}`);
         const url = `${jenkinsJobUrl}${parameters ? '/buildWithParameters' : '/build'}?token=${authenticationToken}${parameters ? "&" + parameters : ""}`
         console.log(`Triggering '${jenkinsJobUrl}'`);
         const credentials = Buffer.from(`${jenkinsUsername}:${jenkinsApiToken}`).toString('base64');
@@ -84,6 +67,7 @@ async function run() {
                     let hasResponse = false;
 
                     const waitStartTime = Date.now();
+                    const jobUrl = await getJobUrl(response.headers.location, credentials)
                     while (!hasResponse) {
                         const currentTime = Date.now();
                         if (waitTimeout > -1) {
@@ -95,19 +79,14 @@ async function run() {
                         }
 
                         try {
-                            const jobStatus = await getJobStatus(jenkinsJobUrl, jenkinsUsername, jenkinsApiToken);
-                            if (buildNumber !== jobStatus.currentNumber) {
-                                // Job has started
-                                if (!jobStatus.inProgress) {
-                                    if (jobStatus.result === "SUCCESS") {
-                                        tl.setResult(tl.TaskResult.Succeeded, `Successfully triggered a Jenkins job ${jenkinsJobUrl}`);
-                                    } else {
-                                        tl.setResult(tl.TaskResult.Failed, `Jenkins Job ${jenkinsJobUrl} had failed with the result '${jobStatus.result}'`);
-                                    }
-                                    return;
+                            const jobStatus = await getJobStatus(`${jobUrl}api/json`, jenkinsUsername, jenkinsApiToken);
+                            if (!jobStatus.inProgress) {
+                                if (jobStatus.result === "SUCCESS") {
+                                    tl.setResult(tl.TaskResult.Succeeded, `Successfully triggered a Jenkins job ${jenkinsJobUrl}`);
                                 } else {
-                                    sleep(1000);
+                                    tl.setResult(tl.TaskResult.Failed, `Jenkins Job ${jenkinsJobUrl} had failed with the result '${jobStatus.result}'`);
                                 }
+                                return;
                             } else {
                                 sleep(1000);
                             }
@@ -132,6 +111,36 @@ async function run() {
     }
 }
 
+async function getJobUrl(queueUrl: string, credentials: string) : Promise<String> {
+    let ready = false;
+    let url = null;
+
+    while(!ready) {
+        const response = await axios.get(`${queueUrl}api/json`, {
+            headers: {
+                'User-Agent': 'Trigger Jenkins Job Azure DevOps Task v1.0.0',
+                'Authorization': `Basic ${credentials}`,
+            }
+        });
+
+        if (response.status != 200) {
+            throw new Error(`Unexpected response from Jenkins host while querying queue item: ${response.status}`);
+        }
+
+        if (response.data.executable) {
+            ready = true;
+            url = response.data.executable.url;
+        }
+
+        if (!ready) {
+            sleep(1000);
+        }
+    }
+
+    console.log(`Triggered job URL: ${url}`);
+    return url;
+}
+
 function sleep(milliseconds: number) {
     const date = Date.now();
     let currentDate = null;
@@ -143,7 +152,7 @@ function sleep(milliseconds: number) {
 async function getJobStatus(jobUrl: string, username: string, apiToken: string) : Promise<JobStatus> {
     console.log(`Querying current status of the '${jobUrl}' job`);
     const credentials = Buffer.from(`${username}:${apiToken}`).toString('base64');
-    const response = await axios.get(`${jobUrl}/lastBuild/api/json`, {
+    const response = await axios.get(jobUrl, {
         headers: {
             'User-Agent': 'Trigger Jenkins Job Azure DevOps Task v1.0.0',
             'Authorization': `Basic ${credentials}`,
