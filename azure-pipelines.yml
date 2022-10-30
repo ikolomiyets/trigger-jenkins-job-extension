@@ -71,7 +71,7 @@ stages:
               connectedServiceName: 'marketplace'
               publisherId: '$(PublisherID)'
               extensionId: '$(ExtensionID)'
-              versionAction: 'Patch'
+              versionAction: 'Minor'
               outputVariable: 'Task.Extension.Version'
           - task: PackageAzureDevOpsExtension@3
             inputs:
@@ -81,7 +81,7 @@ stages:
               artifactName: '$(ExtensionName)'
               extensionVersion: '$(Task.Extension.Version)'
               updateTasksVersion: true
-              updateTasksVersionType: 'patch'
+              updateTasksVersionType: 'minor'
               extensionVisibility: 'private' # Change to public if you're publishing to the marketplace
               extensionPricing: 'free'
           - task: CopyFiles@2
