@@ -40,6 +40,20 @@ describe('Trigger Jenkins Job task tests', function () {
         done();
     });
 
+    it('should succeed with simple inputs and wait', function(done: Mocha.Done) {
+        this.timeout(50000);
+
+        let tp = path.join(__dirname, 'successWithWait.js');
+        let tr: ttm.MockTestRunner = new ttm.MockTestRunner(tp);
+
+        tr.run();
+        assert.strictEqual(tr.succeeded, true, 'should have succeeded');
+        assert.strictEqual(tr.warningIssues.length, 0, "should have no warnings");
+        assert.strictEqual(tr.errorIssues.length, 0, "should have no errors");
+        assert.strictEqual(tr.stdout.indexOf('Successfully triggered a Jenkins job https://jenkins.iktech.io/job/test') >= 0, true, "should display success message");
+        done();
+    });
+
     it('should succeed with simple inputs', function(done: Mocha.Done) {
         this.timeout(50000);
 
