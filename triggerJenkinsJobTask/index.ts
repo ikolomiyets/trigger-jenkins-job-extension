@@ -2,7 +2,6 @@ import tl = require('azure-pipelines-task-lib/task');
 import axios from 'axios';
 
 interface JobStatus {
-    currentNumber: number | undefined
     inProgress: boolean | undefined
     result: string | undefined
 }
@@ -68,6 +67,7 @@ async function run() {
 
                     const waitStartTime = Date.now();
                     const jobUrl = await getJobUrl(response.headers.location, credentials)
+                    console.log(`Querying periodically current status of the '${jobUrl}' job`);
                     while (!hasResponse) {
                         const currentTime = Date.now();
                         if (waitTimeout > -1) {
@@ -80,10 +80,12 @@ async function run() {
 
                         try {
                             const jobStatus = await getJobStatus(`${jobUrl}api/json`, jenkinsUsername, jenkinsApiToken);
-                            if (!jobStatus.inProgress) {
+                            if (!jobStatus.inProgress && jobStatus.result) {
                                 if (jobStatus.result === "SUCCESS") {
+                                    console.log(`Successfully triggered a Jenkins job ${jenkinsJobUrl}`)
                                     tl.setResult(tl.TaskResult.Succeeded, `Successfully triggered a Jenkins job ${jenkinsJobUrl}`);
                                 } else {
+                                    console.log(`Jenkins Job ${jenkinsJobUrl} had failed with the result '${jobStatus.result}'`)
                                     tl.setResult(tl.TaskResult.Failed, `Jenkins Job ${jenkinsJobUrl} had failed with the result '${jobStatus.result}'`);
                                 }
                                 return;
@@ -118,7 +120,7 @@ async function getJobUrl(queueUrl: string, credentials: string) : Promise<String
     while(!ready) {
         const response = await axios.get(`${queueUrl}api/json`, {
             headers: {
-                'User-Agent': 'Trigger Jenkins Job Azure DevOps Task v1.0.0',
+                'User-Agent': 'Trigger Jenkins Job Azure DevOps Task v1.1.0',
                 'Authorization': `Basic ${credentials}`,
             }
         });
@@ -150,11 +152,10 @@ function sleep(milliseconds: number) {
 }
 
 async function getJobStatus(jobUrl: string, username: string, apiToken: string) : Promise<JobStatus> {
-    console.log(`Querying current status of the '${jobUrl}' job`);
     const credentials = Buffer.from(`${username}:${apiToken}`).toString('base64');
     const response = await axios.get(jobUrl, {
         headers: {
-            'User-Agent': 'Trigger Jenkins Job Azure DevOps Task v1.0.0',
+            'User-Agent': 'Trigger Jenkins Job Azure DevOps Task v1.1.0',
             'Authorization': `Basic ${credentials}`,
         }
     });
@@ -163,13 +164,11 @@ async function getJobStatus(jobUrl: string, username: string, apiToken: string) 
     } else {
         if (response.status === 404) {
             return {
-                currentNumber: undefined,
                 inProgress: undefined,
                 result: undefined,
             }
         } else {
             return {
-                currentNumber: response.data.number,
                 inProgress: response.data.inProgress,
                 result: response.data.result,
             }
