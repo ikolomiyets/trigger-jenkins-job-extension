@@ -37,10 +37,10 @@
   },
   "links": {
     "repository": {
-      "uri": "https://github.com/iktech/trigger-jenkins-jobs-extension"
+      "uri": "https://github.com/iktech/trigger-jenkins-job-extension"
     },
     "issues": {
-      "uri": "https://github.com/iktech/trigger-jenkins-jobs-extension/issues"
+      "uri": "https://github.com/iktech/trigger-jenkins-job-extension/issues"
     },
     "support": {
       "uri": "mailto:support@iktech.io"
@@ -48,7 +48,7 @@
   },
   "repository": {
     "type": "git",
-    "uri": "https://github.com/iktech/trigger-jenkins-jobs-extension"
+    "uri": "https://github.com/iktech/trigger-jenkins-job-extension"
   },
   "badges": [
     {
