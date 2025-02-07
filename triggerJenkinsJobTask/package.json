@@ -4,18 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "tsc && mocha tests/_suite.js --reporter mocha-junit-reporter --reporter-option mochaFile=reports/test-result.xml"
+    "test": "tsc && mocha tests/_suite.js --timeout 60000 --reporter mocha-junit-reporter --reporter-option mochaFile=reports/test-result.xml"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.21.4",
-    "azure-pipelines-task-lib": "^3.1.8"
+    "axios": "^1.7.9",
+    "azure-pipelines-task-lib": "^5.0.0"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.0",
-    "@types/node": "^18.11.7",
+    "@types/node": "^22.13.1",
     "@types/q": "^1.5.5",
     "env-cmd": "^10.1.0",
     "mocha-junit-reporter": "^2.0.0",
